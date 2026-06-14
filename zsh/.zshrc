@@ -2,7 +2,7 @@
 # History
 # --------------------------
 
-HISTFILE="$HOME/.zsh_history
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -31,7 +31,7 @@ compinit
 zstyle ':completion:*' menu select
 
 # Case-insensitive completion
-zstyle ':completion"*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # ----------------------------
 # Keybindings
@@ -55,20 +55,20 @@ export PAGER=less
 # Aliases
 # ------------------------------
 
-alias ls='ls --color-auto'
+alias ls='ls --color=auto'
 alias ll='ls -lah'
 alias la='ls -A'
 
 alias ..='cd ..'
 alias ...='cd ../..'
 
-alias grep='grep--color=auto'
+alias grep='grep --color=auto'
 
 # git
 alias g='git'
 alias gs='git status'
 alias ga='git add'
-alias gs='git commit'
+alias gc='git commit'
 alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 
@@ -90,7 +90,9 @@ extract() {
         *.tar)     tar xf "$1" ;;
         *.zip)     unzip "$1" ;;
         *) echo "Cannot extract $1" ;;
-    
+    esac
+}
+
 # -----------------------
 # Starship prompt
 # -----------------------
