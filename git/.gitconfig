@@ -1,0 +1,10 @@
+# ~/.dotfiles/git/.gitconfig
+[user]
+    name = Jared Perkins
+    email = jared.perkins@hotmail.com
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor = nvim

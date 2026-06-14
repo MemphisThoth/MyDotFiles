@@ -1,0 +1,5 @@
+# ~/.dotfiles/starship/.config/starship.toml
+add_newline = false
+
+[character]
+success_symbol = "❯"
