@@ -12,6 +12,8 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
 
 # ---------------------------
 # Navigation
@@ -26,12 +28,17 @@ setopt PUSHD_IGNORE_DUPS
 # ---------------------------
 
 autoload -Uz compinit
-compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C  # skip check if dump is less than 24h old
+fi
 
 zstyle ':completion:*' menu select
-
-# Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # colored completion menu
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'  # category headers
+zstyle ':completion:*' squeeze-slashes true  # foo//bar becomes foo/bar
 
 # ----------------------------
 # Keybindings
@@ -50,15 +57,23 @@ bindkey '^[[1;5C' forward-word
 export EDITOR=nvim
 export VISUAL=nvim
 export PAGER=less
+export PATH="$PATH:/home/jaredperkins/bin:/home/jaredperkins/.local/bin"
 
 # ------------------------------
 # Aliases
 # ------------------------------
 
-alias ls='ls --color=auto'
-alias ll='ls -lah'
-alias la='ls -A'
+alias ls='eza --icons'
+alias ll='eza -lh --icons --git'
+alias la='eza -lah --icons --git'
+alias lt='eza --tree --icons -L 2'
+alias lt3='eza --tree --icons -L 3'
+alias lta='eza --tree --icons -a -L 2'
+alias ld='eza -lhD --icons'
+alias lS='eza -lh --icons --git -s size'
+alias lm='eza -lh --icons --git -s modified'
 
+alias cd='z'
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -73,7 +88,7 @@ alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 
 # --------------------
-# USeful functions
+# Useful functions
 # --------------------
 
 mkcd() {
@@ -105,3 +120,5 @@ eval "$(starship init zsh)"
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+eval "$(zoxide init zsh)"
