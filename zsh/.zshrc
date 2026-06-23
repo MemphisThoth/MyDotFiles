@@ -28,11 +28,7 @@ setopt PUSHD_IGNORE_DUPS
 # ---------------------------
 
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-else
-    compinit -C  # skip check if dump is less than 24h old
-fi
+compinit
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -57,7 +53,7 @@ bindkey '^[[1;5C' forward-word
 export EDITOR=nvim
 export VISUAL=nvim
 export PAGER=less
-export PATH="$PATH:/home/jaredperkins/bin:/home/jaredperkins/.local/bin"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # ------------------------------
 # Aliases
@@ -73,7 +69,7 @@ alias ld='eza -lhD --icons'
 alias lS='eza -lh --icons --git -s size'
 alias lm='eza -lh --icons --git -s modified'
 
-alias cd='z'
+alias c='z'
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -86,6 +82,12 @@ alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
+
+alias reload='source ~/.zshrc'
+
+alias update='sudo dnf update'
+
+alias weather='curl wttr.in/Skowhegan'
 
 # --------------------
 # Useful functions
@@ -119,6 +121,53 @@ eval "$(starship init zsh)"
 # -----------------------
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Fuzzy Finder
+# ---------------
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border --bind='ctrl-/:toggle-preview'"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -50'"
+eval "$(fzf --zsh)"
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Fuzzy branch switch
+fbr() {
+    local branch
+    branch=$(
+        git branch --all |
+        grep -v HEAD |
+        fzf --preview "git log --oneline --color=always {1}"
+    )
+
+    branch=${branch#remotes/origin/}
+    branch=${branch#* }
+
+    [[ -n "$branch" ]] && git checkout "$branch"
+}
+
+# Fuzzy open in Neovim
+fv() {
+    local file
+    file=$(fd --type f | fzf --preview 'bat --color=always --style=numbers {}')
+    [[ -n "$file" ]] && "$EDITOR" "$file"
+}
+
+# Fuzzy cd into any subdirectory
+fcd() {
+  local dir
+  dir=$(fd --type d | fzf --preview 'eza --tree --color=always {} | head -30')
+  [ -n "$dir" ] && cd "$dir"
+}
+
+# Kill a process interactively
+fkill() {
+  local pid
+  pid=$(ps aux | sed 1d | fzf -m | awk '{print $2}')
+  [ -n "$pid" ] && echo "$pid" | xargs kill -${1:-15}
+}
+
+# zoxide change directory command
 eval "$(zoxide init zsh)"
