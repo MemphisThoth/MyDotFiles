@@ -1,0 +1,70 @@
+* {
+     transition: all 0.15s ease;
+}
+/*
+window#waybar {
+    background: rgba(8, 16, 26, 0.78);
+    border: 1px solid rgba(43, 127, 255, 0.55);
+    border-radius: 14px;
+    margin: 6px;
+}
+*/
+
+window#waybar {
+    margin: 6px;
+    border: 1px solid rgba(43, 127, 255, 0.4);
+}
+
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#custom-launcher {
+    padding: 0 14px;
+    margin: 6px 4px;
+
+    border-radius: 10px;
+
+    background: rgba(18, 32, 48, 0.75);
+    border: 1px solid rgba(74, 168, 255, 0.15);
+
+    color: #e6f1ff;
+}
+
+#workspaces {
+    padding: 0 6px;
+}
+
+#workspaces button {
+    all: unset;
+    padding: 0 10px;
+    margin: 6px 4px;
+    border-radius: 10px;
+    color: #a8bfd8;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    background: rgba(43, 127, 255, 0.95);
+    color: #ffffff;
+    padding: 0 14px;
+}
+
+#workspaces button:hover {
+    background: rgba(74, 168, 255, 0.35);
+    color: #ffffff;
+}
+
+#custom-power {
+    padding: 0 14px;
+    margin: 4px;
+    border-radius: 10px;
+    background: rgba(18, 32, 48, 0.75);
+    color: #ff6b6b;
+}
+
+#custom-power:hover {
+    background: rgba(255, 207, 107, 0.2);
+    color: white;
+}

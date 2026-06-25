@@ -1,0 +1,58 @@
+{
+    "layer": "top",
+    "position": "top",
+
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "pulseaudio",
+        "network",
+        "battery",
+        "custom/power"
+    ],
+
+    "custom/launcher": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "fuzzel"
+    },
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "all-outputs": true,
+        "persistent-workspaces": {
+            "*": [1,2,3,4,5,6,7,8,9]
+        }
+    },
+
+    "clock": {
+        "format": "{:%I:%M %p}"
+    },
+
+    "pulseaudio": {
+        "format": "󰕾 {volume}%"
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {signalStrength}%",
+        "format-ethernet": "󰈀"
+    },
+
+    "battery": {
+        "format": "󰁹 {capacity}%"
+    },
+
+    "custom/power": {
+    "format": "⏻",
+    "tooltip": "Power Menu",
+    "on-click": "~/.config/waybar/scripts/power.sh"
+}
+}
